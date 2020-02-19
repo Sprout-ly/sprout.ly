@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const plantController = require('./controller/plantController')
 const PORT = 3030;
 
 const app = express();
@@ -12,6 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/test', (req, res) => {
   console.log("WHAT")
   res.sendStatus(222);
+});
+
+// Test post request to confirm db is connected
+app.post('/test', plantController.postUser, (req, res) => {
+  console.log("WHAT")
+  res.send(200).json();
 });
 
 app.get('/', (req, res) => {
