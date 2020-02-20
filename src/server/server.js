@@ -5,11 +5,10 @@ const bodyParser = require('body-parser');
 const plantController = require('./controller/plantController')
 const userController = require('./controller/userController')
 const PORT = 3030;
-const GoogleAuth = require('google-auth-library')
-const clientId = "1071619533746-68g7lhv0h6b1urgto5rak8cpk0orj929.apps.googleusercontent.com"
+
 
 const app = express();
-const client = new GoogleAuth.OAuth2Client(clientId)
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,29 +22,7 @@ app.get('/plants', plantController.getUserPlants, (req, res) => {
 });
 
 
-app.get('/authenticate', (req, res) => {
-  async function verify() {
-    const ticket = await client.verifyIdToken({
-      idToken: authorization,
-      audience: clientId,  // Specify the CLIENT_ID of the app that accesses the backend
-      // Or, if multiple clients access the backend:
-      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-    });
-    const payload = ticket.getPayload();
-    const userId = payload['sub'];
-    console.log("payload", payload);
-    console.log("userID", userId)
-    // If request specified a G Suite domain:
-    //const domain = payload['hd'];
-    res.locals.userData = {name: payload.name, email: payload.email, u_id : 1}
-  }
-  console.log("reacehd authenticate")
-  let { authorization, tokentype } = req.headers;
-  console.log(req.headers)
-  if (tokentype === "Bearer") {
-    verify().catch(console.error);
-  }
-
+app.get('/authenticate', userController.oAuthUser, (req, res) => {
   res.json(res.locals.userData);
 });
 

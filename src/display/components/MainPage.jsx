@@ -11,17 +11,7 @@ import regeneratorRuntime from "regenerator-runtime";
 
 function MainPage(props) {
 
-  const { user, setUser } = useContext(UserContext);
-
-
-
-
-  let accesToke = JSON.stringify({ key: "value" });
-  let profileTok = JSON.stringify({ another: "valuse" });
-  const [googleData, setgoogleData] = useState({
-    access: accesToke,
-    profile: profileTok
-  });
+  const { user, updateUser } = useContext(UserContext);
 
   const [searchText, setSearchText] = useState("");
   const [showPlants, setShowPlants] = useState([]);
@@ -34,44 +24,33 @@ function MainPage(props) {
         plantName: searchText
       })
       .then(res => {
-        console.log(res);
         setShowPlants(res.data);
       })
       .catch(err => console.log(err));
   }
 
   async function getUserAuth(dataIn) {
-    console.log('dataIn', dataIn)
     try {
       const userConfirm = await axios.get('/authenticate', {
         headers: {
           tokentype: "Bearer",
-          authorization : dataIn.tokenId
+          authorization: dataIn.tokenId
         }
       });
-      console.log(userConfirm);
+      updateUser({
+        name: userConfirm.data.name,
+        u_id: userConfirm.data.u_id,
+        email: userConfirm.data.email,
+      })
+      console.log(userConfirm)
+      props.history.push("/userpage")
     } catch (error) {
       console.error(error);
     }
   }
 
   const responseGoogle = response => {
-    console.log(response);
-    accesToke = JSON.stringify(response.tokenObj);
-    profileTok = JSON.stringify(response.profileObj);
-    setgoogleData({ access: accesToke, profile: profileTok });
-    console.log("going To Auth")
-    let authent = getUserAuth(response);
-
-    if (authent){
-      console.log("we got authed:", authent)
-    }
-    // axios.get('/authenticate', {
-    //   headers: {
-    //     tokenType: "Bearer",
-    //     authorization : response.tokenId
-    //   }})
-  
+    getUserAuth(response);
   };
 
   return (
@@ -83,8 +62,6 @@ function MainPage(props) {
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
       />
-      <div>{googleData.profile}</div>
-      <div>{googleData.access}</div>
       <form onSubmit={fetchPlants}>
         <input
           type="text"
