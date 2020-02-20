@@ -1,46 +1,41 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { UserContext } from './context/UserContext.jsx';
-import { GoogleLogin } from 'react-google-login';
-import axios from 'axios'
-
-
+import React, { useEffect, useState, useContext } from "react";
+import { UserContext } from "./context/UserContext.jsx";
+import { GoogleLogin } from "react-google-login";
+import { render } from "react-dom";
+import axios from "axios";
+import DisplayPlants from "./DisplayPlants.jsx";
 
 function MainPage(props) {
-
   let accesToke = JSON.stringify({ key: "value" });
   let profileTok = JSON.stringify({ another: "valuse" });
-  const [googleData, setgoogleData] = useState({ access: accesToke, profile: profileTok });
+  const [googleData, setgoogleData] = useState({
+    access: accesToke,
+    profile: profileTok
+  });
 
-  // useEffect(() => {
-  //   axios.get('/authenticate', {
-  //     headers: {
-  //       tokenType: "Bearer",
-  //       authorization : accesToke
-  //     }
-  //   })
-  // }, [googleData]);
+  const [searchText, setSearchText] = useState("");
+  const [showPlants, setShowPlants] = useState([]);
 
-  function handleClick() {
-    fetch('/test')
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+  // search bar fetching to backend
+  function fetchPlants() {
+    event.preventDefault();
+    axios
+      .post("/plants", {
+        plantName: searchText
+      })
+      .then(res => {
+        console.log(res);
+        setShowPlants(res.data);
+      })
+      .catch(err => console.log(err));
   }
 
-
-  const responseGoogle = (response) => {
+  const responseGoogle = response => {
     console.log(response);
-    console.log(response.tokenId)
-    accesToke = JSON.stringify(response.id_token)
-    profileTok = JSON.stringify(response.profileObj)
-    setgoogleData({ access: accesToke, profile: profileTok })
-    axios.get('/authenticate', {
-      headers: {
-        tokenType: "Bearer",
-        authorization : response.tokenId
-      }
-    })
-  }
-
+    accesToke = JSON.stringify(response.tokenObj);
+    profileTok = JSON.stringify(response.profileObj);
+    setgoogleData({ access: accesToke, profile: profileTok });
+  };
 
   return (
     <div>
@@ -49,13 +44,21 @@ function MainPage(props) {
         buttonText="Login"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
+        cookiePolicy={"single_host_origin"}
       />
-      <button type='button' onClick={handleClick}>CLICK ME!</button>
       <div>{googleData.profile}</div>
       <div>{googleData.access}</div>
+      <form onSubmit={fetchPlants}>
+        <input
+          type="text"
+          placeholder="Enter Plant Name Here..."
+          onChange={event => setSearchText(event.target.value)}
+        ></input>
+        <input type="submit" value="Search"></input>
+      </form>
+      <DisplayPlants showPlants={showPlants} />
     </div>
-  )
-};
+  );
+}
 
 export default MainPage;
