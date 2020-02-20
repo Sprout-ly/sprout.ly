@@ -5,7 +5,7 @@ const plantController = {};
 // handle post request from FE with searchtext
 plantController.getplantResults = (req, res, next) => {
   const { plantName } = req.query;
-  console.log('req.body search results', req.query);
+  console.log('req.query search results', req.query);
   const newQuery =
     `SELECT * FROM plants WHERE plantname LIKE '%${plantName}%'`;
   db.query(newQuery)
