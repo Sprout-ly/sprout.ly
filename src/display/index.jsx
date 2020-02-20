@@ -8,4 +8,4 @@ ReactDom.render(
   <UserProvider>
     <App />
   </UserProvider>,
-  document.getElementById('root'));
+  document.getElementById('root')); 
