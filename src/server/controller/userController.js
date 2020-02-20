@@ -2,7 +2,6 @@ const db = require('../models/dbModel');
 
 const userController = {};
 
-
 // create user
 userController.postUser = (req, res, next) => {
   const { g_id, email, name } = req.body;

@@ -20,8 +20,8 @@ function MainPage(props) {
   function fetchPlants() {
     event.preventDefault();
     axios
-      .post("/plants", {
-        plantName: searchText
+      .get("/landing", {
+        params: searchText
       })
       .then(res => {
         console.log(res);

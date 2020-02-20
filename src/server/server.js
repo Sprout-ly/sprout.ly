@@ -15,11 +15,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/landing', plantController.getplantResults, (req, res) => {
-  res.send(200).json(res.locals.plants);
+  res.status(200).json(res.locals.plants);
 });
 
 app.get('/plants', plantController.getUserPlants, (req, res) => {
-  res.send(200).json(res.locals.plants);
+  res.status(200).json(res.locals.plants);
 });
 
 
@@ -65,11 +65,11 @@ app.get('/*', (req, res) => {
 
 // Test post request to confirm db is connected -> posted user info to db
 app.post('/users', userController.postUser, (req, res) => {
-  res.send(200).json();
+  res.status(200).json();
 });
 
 app.post('/plants', plantController.postPlant, (req, res) => {
-  res.send(200);
+  res.status(200);
 });
 
 
