@@ -6,13 +6,14 @@ import DisplayUserPlants from "./DisplayUserPlants.jsx";
 function UserPage(props) {
   const [userPlants, setUserPlants] = useState([]);
   const [gotData, setGotData] = useState(false);
+  const { user } = useContext(UserContext);
 
   function getPlants() {
     if (gotData === false) {
       axios
         .get("/plants", {
           params: {
-            user_id: 1 // grab user_id from context
+            user_id: user.u_id // grab user_id from context
           }
         })
         // .then(res => console.log(res.data))
