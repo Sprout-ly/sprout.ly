@@ -5,11 +5,10 @@ const bodyParser = require('body-parser');
 const plantController = require('./controller/plantController')
 const userController = require('./controller/userController')
 const PORT = 3030;
-const GoogleAuth = require('google-auth-library')
-const clientId = "1071619533746-68g7lhv0h6b1urgto5rak8cpk0orj929.apps.googleusercontent.com"
+
 
 const app = express();
-const client = new GoogleAuth.OAuth2Client(clientId)
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,28 +23,15 @@ app.get('/plants', plantController.getUserPlants, (req, res) => {
   res.status(200).json(res.locals.plants);
 });
 
+app.patch('/updateplants', plantController.updatePlant, (req, res) => {
+  res.status(200).json(res.locals.updatedPlants);
+});
+app.delete('/deleteplants', plantController.deleteUserPlants, (req, res) => {
+  res.status(200).json(res.locals.plants);
+});
 
-app.get('/authenticate', (req, res) => {
-  async function verify() {
-    const ticket = await client.verifyIdToken({
-      idToken: req.headers.authorization,
-      audience: clientId,  // Specify the CLIENT_ID of the app that accesses the backend
-      // Or, if multiple clients access the backend:
-      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-    });
-    const payload = ticket.getPayload();
-    const userId = payload['sub'];
-    console.log("payload", payload);
-    console.log("userID", userId)
-    // If request specified a G Suite domain:
-    //const domain = payload['hd'];
-  }
-  verify().catch(console.error);
-
-  console.log("reacehd authenticate")
-
-  console.log(req.headers.authorization)
-  res.sendStatus(222);
+app.get('/authenticate', userController.oAuthUser, (req, res) => {
+  res.json(res.locals.userData);
 });
 
 app.get('/', (req, res) => {
@@ -70,12 +56,13 @@ app.post('/users', userController.postUser, (req, res) => {
   res.status(200).json();
 });
 
+<<<<<<< HEAD
 app.post('/plants', plantController.postPlant, (req, res) => {
-  res.status(200);
+=======
+app.post('/plants', plantController.addPlant, (req, res) => {
+>>>>>>> d332093117a1f46a6944af06a9dd0ea5842e34c2
+  res.sendStatus(200);
 });
-
-
-
 
 app.use('*', (req, res) => {
   res.sendStatus(404);

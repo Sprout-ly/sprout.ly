@@ -13,46 +13,53 @@ import {
   Jumbotron,
   Row,
 } from 'reactstrap';
+import regeneratorRuntime from "regenerator-runtime";
+
+
+
 
 function MainPage(props) {
-  let accesToke = JSON.stringify({ key: "value" });
-  let profileTok = JSON.stringify({ another: "valuse" });
-  const [googleData, setgoogleData] = useState({
-    access: accesToke,
-    profile: profileTok
-  });
+
+  const { user, updateUser } = useContext(UserContext);
 
   const [searchText, setSearchText] = useState("");
   const [showPlants, setShowPlants] = useState([]);
 
   // search bar fetching to backend
-  function fetchPlants() {
+  function fetchPlants(event) {
     event.preventDefault();
-    console.log('searchtext', searchText)
     axios
       .get("/landing", {
         params: {
           plantName: searchText
         }
       })
-      .then(res => {
-        console.log('results', res);
-        setShowPlants(res.data);
-      })
+      .then(res => setShowPlants(res.data))
       .catch(err => console.log(err));
   }
 
+  async function getUserAuth(dataIn) {
+    try {
+      const userConfirm = await axios.get('/authenticate', {
+        headers: {
+          tokentype: "Bearer",
+          authorization: dataIn.tokenId
+        }
+      });
+      updateUser({
+        name: userConfirm.data.name,
+        u_id: userConfirm.data.u_id,
+        email: userConfirm.data.email,
+      })
+      console.log(userConfirm)
+      props.history.push("/userpage")
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const responseGoogle = response => {
-    axios.get('/authenticate', {
-      headers: {
-        tokenType: "Bearer",
-        authorization: response.tokenId
-      }
-    })
-    console.log(response);
-    accesToke = JSON.stringify(response.tokenObj);
-    profileTok = JSON.stringify(response.profileObj);
-    setgoogleData({ access: accesToke, profile: profileTok });
+    getUserAuth(response);
   };
 
   return (
