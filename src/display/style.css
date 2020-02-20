@@ -1,5 +1,7 @@
 .container-fluid {
   font-family: 'Thasadith', sans-serif;
+  font-weight: 800;
+  color: #FFF;
 }
 
 .display-3 {
@@ -7,6 +9,7 @@
 }
 
 .jumbotron {
-  background-image: url("../assets/blue-sunny-sky-1.jpg");
+  background-image: url("succulents.jpg");
   background-size: cover;
+  opacity: 0.55;
 }
