@@ -7,7 +7,7 @@ import DisplayPlants from "./DisplayPlants.jsx";
 
 function MainPage(props) {
   let accesToke = JSON.stringify({ key: "value" });
-  let profileTok = JSON.stringify({ another: "valuse" });
+  let profileTok = JSON.stringify({ another: "value" });
   const [googleData, setgoogleData] = useState({
     access: accesToke,
     profile: profileTok

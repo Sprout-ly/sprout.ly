@@ -22,6 +22,12 @@ app.get('/plants', plantController.getUserPlants, (req, res) => {
   res.status(200).json(res.locals.plants);
 });
 
+app.patch('/updateplants', plantController.updatePlant, (req, res) => {
+  res.status(200).json(res.locals.updatedPlants);
+});
+app.delete('/deleteplants', plantController.deleteUserPlants, (req, res) => {
+  res.status(200).json(res.locals.plants);
+});
 
 app.get('/authenticate', (req, res) => {
   async function verify() {
@@ -68,12 +74,9 @@ app.post('/users', userController.postUser, (req, res) => {
   res.status(200).json();
 });
 
-app.post('/plants', plantController.postPlant, (req, res) => {
-  res.status(200);
+app.post('/plants', plantController.addPlant, (req, res) => {
+  res.sendStatus(200);
 });
-
-
-
 
 app.use('*', (req, res) => {
   res.sendStatus(404);
