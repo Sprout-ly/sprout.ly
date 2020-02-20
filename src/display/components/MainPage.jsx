@@ -27,16 +27,15 @@ function MainPage(props) {
   const [showPlants, setShowPlants] = useState([]);
 
   // search bar fetching to backend
-  function fetchPlants() {
+  function fetchPlants(event) {
     event.preventDefault();
     axios
-      .post("/plants", {
-        plantName: searchText
+      .get("/landing", {
+        params: {
+          plantName: searchText
+        }
       })
-      .then(res => {
-        console.log(res);
-        setShowPlants(res.data);
-      })
+      .then(res => setShowPlants(res.data))
       .catch(err => console.log(err));
   }
 
@@ -56,6 +55,12 @@ function MainPage(props) {
   }
 
   const responseGoogle = response => {
+    axios.get('/authenticate', {
+      headers: {
+        tokenType: "Bearer",
+        authorization : response.tokenId
+      }
+    })
     console.log(response);
     accesToke = JSON.stringify(response.tokenObj);
     profileTok = JSON.stringify(response.profileObj);
