@@ -14,6 +14,8 @@ const client = new GoogleAuth.OAuth2Client(clientId)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/", express.static(path.join(__dirname, "../display/")))
+
 app.get('/landing', plantController.getplantResults, (req, res) => {
   res.status(200).json(res.locals.plants);
 });
