@@ -26,7 +26,7 @@ app.get('/plants', plantController.getUserPlants, (req, res) => {
 app.get('/authenticate', (req, res) => {
   async function verify() {
     const ticket = await client.verifyIdToken({
-      idToken: req.headers.authorization,
+      idToken: authorization,
       audience: clientId,  // Specify the CLIENT_ID of the app that accesses the backend
       // Or, if multiple clients access the backend:
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
@@ -37,13 +37,16 @@ app.get('/authenticate', (req, res) => {
     console.log("userID", userId)
     // If request specified a G Suite domain:
     //const domain = payload['hd'];
+    res.locals.userData = {name: payload.name, email: payload.email, u_id : 1}
   }
-  verify().catch(console.error);
-
   console.log("reacehd authenticate")
+  let { authorization, tokentype } = req.headers;
+  console.log(req.headers)
+  if (tokentype === "Bearer") {
+    verify().catch(console.error);
+  }
 
-  console.log(req.headers.authorization)
-  res.sendStatus(222);
+  res.json(res.locals.userData);
 });
 
 app.get('/', (req, res) => {

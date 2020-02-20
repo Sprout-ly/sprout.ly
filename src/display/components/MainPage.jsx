@@ -4,8 +4,18 @@ import { GoogleLogin } from "react-google-login";
 import { render } from "react-dom";
 import axios from "axios";
 import DisplayPlants from "./DisplayPlants.jsx";
+import regeneratorRuntime from "regenerator-runtime";
+
+
+
 
 function MainPage(props) {
+
+  const { user, setUser } = useContext(UserContext);
+
+
+
+
   let accesToke = JSON.stringify({ key: "value" });
   let profileTok = JSON.stringify({ another: "valuse" });
   const [googleData, setgoogleData] = useState({
@@ -30,11 +40,38 @@ function MainPage(props) {
       .catch(err => console.log(err));
   }
 
+  async function getUserAuth(dataIn) {
+    console.log('dataIn', dataIn)
+    try {
+      const userConfirm = await axios.get('/authenticate', {
+        headers: {
+          tokentype: "Bearer",
+          authorization : dataIn.tokenId
+        }
+      });
+      console.log(userConfirm);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const responseGoogle = response => {
     console.log(response);
     accesToke = JSON.stringify(response.tokenObj);
     profileTok = JSON.stringify(response.profileObj);
     setgoogleData({ access: accesToke, profile: profileTok });
+    console.log("going To Auth")
+    let authent = getUserAuth(response);
+
+    if (authent){
+      console.log("we got authed:", authent)
+    }
+    // axios.get('/authenticate', {
+    //   headers: {
+    //     tokenType: "Bearer",
+    //     authorization : response.tokenId
+    //   }})
+  
   };
 
   return (
