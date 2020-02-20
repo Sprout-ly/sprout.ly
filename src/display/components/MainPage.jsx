@@ -16,10 +16,6 @@ function MainPage(props) {
   const [searchText, setSearchText] = useState("");
   const [showPlants, setShowPlants] = useState([]);
 
-  useEffect(() => {
-    setgoogleData({ access: accesToke, profile: profileTok });
-  }, [profileTok]);
-
   // search bar fetching to backend
   function fetchPlants() {
     event.preventDefault();
@@ -50,8 +46,6 @@ function MainPage(props) {
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
       />
-      {/* document.getElementById('googleButton') */}
-      {/* <div class="g-signin2" data-onsuccess={onSignIn} data-theme="dark"></div> */}
       <div>{googleData.profile}</div>
       <div>{googleData.access}</div>
       <form onSubmit={fetchPlants}>
