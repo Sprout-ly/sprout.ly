@@ -17,15 +17,15 @@ function MainPage(props) {
   const [showPlants, setShowPlants] = useState([]);
 
   // search bar fetching to backend
-  function fetchPlants() {
+  function fetchPlants(event) {
     event.preventDefault();
     axios
-      .post("/plants", {
-        plantName: searchText
+      .get("/landing", {
+        params: {
+          plantName: searchText
+        }
       })
-      .then(res => {
-        setShowPlants(res.data);
-      })
+      .then(res => setShowPlants(res.data))
       .catch(err => console.log(err));
   }
 
