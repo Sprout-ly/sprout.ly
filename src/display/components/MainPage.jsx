@@ -71,8 +71,6 @@ function MainPage(props) {
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
       />
-      <div>{googleData.profile}</div>
-      <div>{googleData.access}</div>
       <Jumbotron fluid>
         <Container fluid>
           <h1 className="display-3">Welcome to sprout.ly!</h1>
