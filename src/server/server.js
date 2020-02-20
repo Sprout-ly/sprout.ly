@@ -54,7 +54,11 @@ app.post('/users', userController.postUser, (req, res) => {
   res.status(200).json();
 });
 
+<<<<<<< HEAD
+app.post('/plants', plantController.postPlant, (req, res) => {
+=======
 app.post('/plants', plantController.addPlant, (req, res) => {
+>>>>>>> d332093117a1f46a6944af06a9dd0ea5842e34c2
   res.sendStatus(200);
 });
 

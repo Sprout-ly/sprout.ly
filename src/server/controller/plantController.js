@@ -31,12 +31,17 @@ plantController.getUserPlants = (req, res, next) => {
 };
 
 // successfully posts info to db
+<<<<<<< HEAD
+plantController.postPlant = (req, res, next) => {
+  const { user_id, plantname, waterschedule, lastwatered, nextwatering } = req.body;
+=======
 plantController.addPlant = (req, res, next) => {
   const { user_id, plantname, waterschedule } = req.body;
+>>>>>>> d332093117a1f46a6944af06a9dd0ea5842e34c2
   console.log('req.body', req.body)
   const newQuery =
-    `INSERT INTO plants (user_id, plantname, waterschedule) VALUES ($1, $2, $3)`;
-  const values = [user_id, plantname, waterschedule]
+    `INSERT INTO plants (user_id, plantname, waterschedule, lastwatered, nextwatering) VALUES ($1, $2, $3, $4, $5)`;
+  const values = [user_id, plantname, waterschedule, lastwatered, nextwatering]
   db.query(newQuery, values)
     .then(data => console.log('sucessfully added plant'))
     .catch(err => console.log('there was an error creating new plant'))
