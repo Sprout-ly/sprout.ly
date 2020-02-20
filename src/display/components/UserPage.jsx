@@ -10,6 +10,7 @@ function UserPage(props) {
 
   const [userPlants, setUserPlants] = useState([]);
   const [gotData, setGotData] = useState(false);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     getPlants();
@@ -20,7 +21,7 @@ function UserPage(props) {
       axios
         .get("/plants", {
           params: {
-            user_id: 1 // grab user_id from context
+            user_id: user.u_id // grab user_id from context
           }
         })
         .then(res => {
