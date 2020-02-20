@@ -4,6 +4,7 @@ import { GoogleLogin } from "react-google-login";
 import { render } from "react-dom";
 import axios from "axios";
 import DisplayPlants from "./DisplayPlants.jsx";
+import { Button } from 'reactstrap';
 
 function MainPage(props) {
   let accesToke = JSON.stringify({ key: "value" });
@@ -57,17 +58,26 @@ function MainPage(props) {
       />
       <div>{googleData.profile}</div>
       <div>{googleData.access}</div>
-      <form onSubmit={fetchPlants}>
-        <input
-          type="text"
-          placeholder="Enter Plant Name Here..."
-          onChange={event => setSearchText(event.target.value)}
-        ></input>
-        <input type="submit" value="Search"></input>
-      </form>
+      <Form>
+        <FormGroup onSubmit={fetchPlants}>
+          <Input
+            type="textarea"
+            name="text"
+            id="plantsubmit"
+            onChange={event => setSearchText(event.target.value)}
+          >
+          </Input>
+          <input type="submit" value="Search"></input>
+        </FormGroup>
+        <Button>Submit</Button>
+      </Form>
       <DisplayPlants showPlants={showPlants} />
     </div>
   );
 }
+
+<FormGroup>
+  <Input type="textarea" name="text" id="exampleText" />
+</FormGroup>
 
 export default MainPage;
