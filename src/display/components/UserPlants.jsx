@@ -27,10 +27,10 @@ function UserPlants(props) {
 
   return (
     <div>
-      <h2>Plant: {props.plantName.toUpperCase()}</h2>
+      <h2>{props.plantName.toUpperCase()}</h2>
       <h3>Watering Schedule: Every {props.waterSchedule} days</h3>
-      <p>Last Watered: {dateParser(lastWateredDate)} at {normalizeTime(timeParser(lastWateredDate))}</p>
-      <p>Next Watering: {dateParser(nextWateredDate)} at {normalizeTime(timeParser(nextWateredDate))}</p>
+      <h4>Last Watered: {dateParser(lastWateredDate)} at {normalizeTime(timeParser(lastWateredDate))}</h4>
+      <h4>Next Watering: {dateParser(nextWateredDate)} at {normalizeTime(timeParser(nextWateredDate))}</h4>
       <button>Sync</button>&emsp;
       <button>Edit</button>&emsp;
       <button>Delete</button>

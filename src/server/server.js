@@ -69,7 +69,7 @@ app.post('/users', userController.postUser, (req, res) => {
 });
 
 app.post('/plants', plantController.postPlant, (req, res) => {
-  res.status(200);
+  res.sendStatus(200);
 });
 
 
