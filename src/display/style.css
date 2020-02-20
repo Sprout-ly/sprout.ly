@@ -1,0 +1,15 @@
+.container-fluid {
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 800;
+  color: #FFF;
+}
+
+.display-3 {
+  font-size: 3em;;
+}
+
+.jumbotron {
+  background-image: url("succulents.jpg");
+  background-size: cover;
+  opacity: 0.55;
+}

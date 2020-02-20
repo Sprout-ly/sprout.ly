@@ -4,6 +4,15 @@ import { GoogleLogin } from "react-google-login";
 import { render } from "react-dom";
 import axios from "axios";
 import DisplayPlants from "./DisplayPlants.jsx";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Input,
+  Jumbotron,
+  Row,
+} from 'reactstrap';
 import regeneratorRuntime from "regenerator-runtime";
 
 
@@ -57,19 +66,37 @@ function MainPage(props) {
     <div>
       <GoogleLogin
         clientId="1071619533746-68g7lhv0h6b1urgto5rak8cpk0orj929.apps.googleusercontent.com"
-        buttonText="Login"
+        buttonText="Login with Google"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
       />
-      <form onSubmit={fetchPlants}>
-        <input
-          type="text"
-          placeholder="Enter Plant Name Here..."
-          onChange={event => setSearchText(event.target.value)}
-        ></input>
-        <input type="submit" value="Search"></input>
-      </form>
+      <Jumbotron fluid>
+        <Container fluid>
+          <h1 className="display-3">Welcome to sprout.ly!</h1>
+          <p className="lead">Lost that little card that came with your plant? Wondering how to water it?</p>
+          <hr className="my-2" />
+          <p>Enter your plant below, and we'll tell you!</p>
+          <p className="lead"></p>
+        </Container>
+      </Jumbotron>
+      <Container>
+        <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
+            <Form onSubmit={fetchPlants}>
+              <Input
+                type="textarea"
+                name="text"
+                id="plantsubmit"
+                onChange={event => setSearchText(event.target.value)}
+              >
+              </Input>
+              <br />
+              <Input color="primary" type="submit" value="What plant are you looking for?"></Input>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
       <DisplayPlants showPlants={showPlants} />
     </div>
   );

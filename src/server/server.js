@@ -13,6 +13,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/", express.static(path.join(__dirname, "../display/")))
+
 app.get('/landing', plantController.getplantResults, (req, res) => {
   res.status(200).json(res.locals.plants);
 });
@@ -54,11 +56,7 @@ app.post('/users', userController.postUser, (req, res) => {
   res.status(200).json();
 });
 
-<<<<<<< HEAD
-app.post('/plants', plantController.postPlant, (req, res) => {
-=======
 app.post('/plants', plantController.addPlant, (req, res) => {
->>>>>>> d332093117a1f46a6944af06a9dd0ea5842e34c2
   res.sendStatus(200);
 });
 
