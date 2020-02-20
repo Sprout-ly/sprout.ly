@@ -19,12 +19,15 @@ function MainPage(props) {
   // search bar fetching to backend
   function fetchPlants() {
     event.preventDefault();
+    console.log('searchtext', searchText)
     axios
-      .post("/plants", {
-        plantName: searchText
+      .get("/landing", {
+        params: {
+          plantName: searchText
+        }
       })
       .then(res => {
-        console.log(res);
+        console.log('results', res);
         setShowPlants(res.data);
       })
       .catch(err => console.log(err));
