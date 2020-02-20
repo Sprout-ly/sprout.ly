@@ -31,7 +31,7 @@ userController.oAuthUser = (req, res, next) => {
       audience: clientId,
     });
     const payload = ticket.getPayload();
-    res.locals.userData = {name: payload.name, email: payload.email, u_id : 1}
+    res.locals.userData = {name: payload.name, email: payload.email, u_id : 2}
     next();
   }
 
