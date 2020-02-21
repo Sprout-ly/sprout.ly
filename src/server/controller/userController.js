@@ -25,13 +25,18 @@ userController.postUser = (req, res, next) => {
 //google Oauth User
 userController.oAuthUser = (req, res, next) => {
   console.log("in oauth")
+  console.log("what")
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: authorization,
       audience: clientId,
     });
     const payload = ticket.getPayload();
-    res.locals.userData = { name: payload.name, email: payload.email, u_id: 2 }
+    console.log(payload);
+
+
+
+    res.locals.userData = { name: payload.name, email: payload.email, u_id: payload.sub }
     next();
   }
 
@@ -41,5 +46,43 @@ userController.oAuthUser = (req, res, next) => {
     verify().catch(err => next(err));
   }
 }
+
+userController.verifyOrWriteUser = (req, res, next) => {
+  console.log("in verify and write");
+  let values = [res.locals.userData.name, res.locals.userData.email, res.locals.userData.u_id];
+  const query1 = `SELECT EXISTS(SELECT 1 FROM users WHERE g_id = ${payload.u_id})`;
+  const query2 = `INSERT INTO user (name, email, g_id)
+                  VALUES ($1, $2, $3)
+                  RETURNING *`;
+  const query3 = `SELECT * from users where googleId = ${payload.u_id}`;
+  let exists;
+
+  db.query(query1)
+    .then(data => {
+      console.log('query 1 data here', data);
+      exists = data.rows[0].exists;
+      console.log('exists boolean here', exists);
+      if (exists === false) {
+        db.query(query2, values)
+          .then(data => {
+            console.log('data rows here', data.rows);
+            res.locals.users = data.rows;
+            next();
+          })
+          .catch(err => console.log(err));
+      } else {
+        db.query(query3, values).then(data => {
+          res.locals.users = data.rows;
+          next();
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      next(err)
+    });
+}
+
+
 
 module.exports = userController;
