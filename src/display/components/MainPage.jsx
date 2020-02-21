@@ -101,7 +101,7 @@ function MainPage(props) {
           </Col>
         </Row>
       </Container>
-      <DisplayPlants showPlants={showPlants} />
+      <DisplayPlants id="displayplants" showPlants={showPlants} />
     </div>
   );
 }
