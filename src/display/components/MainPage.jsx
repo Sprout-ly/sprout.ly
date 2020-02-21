@@ -64,16 +64,9 @@ function MainPage(props) {
 
   return (
     <div>
-      <GoogleLogin
-        clientId="1071619533746-68g7lhv0h6b1urgto5rak8cpk0orj929.apps.googleusercontent.com"
-        buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={"single_host_origin"}
-      />
       <Jumbotron fluid>
         <Container fluid>
-          <h1 className="display-3">Welcome to sprout.ly!</h1>
+          <h1 className="display-3">Welcome to sprout.ly</h1>
           <p className="lead">Lost that little card that came with your plant? Wondering how to water it?</p>
           <hr className="my-2" />
           <p>Enter your plant below, and we'll tell you!</p>
@@ -96,8 +89,19 @@ function MainPage(props) {
             </Form>
           </Col>
         </Row>
+        <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
+            <GoogleLogin
+              clientId="1071619533746-68g7lhv0h6b1urgto5rak8cpk0orj929.apps.googleusercontent.com"
+              buttonText="Login with Google"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+          </Col>
+        </Row>
       </Container>
-      <DisplayPlants showPlants={showPlants} />
+      <DisplayPlants id="displayplants" showPlants={showPlants} />
     </div>
   );
 }

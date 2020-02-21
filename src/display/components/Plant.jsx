@@ -4,8 +4,11 @@ function Plant(props) {
 
   return (
     <div>
-      <h3>Plant: {props.plantName.toUpperCase()}</h3>
-      <h4>Watering Schedule: Every {props.waterSchedule} days</h4>
+      <br />
+      <br />
+      <h3>{props.plantName.toUpperCase()}</h3>
+      <h4>Water every {props.waterSchedule} days</h4>
+
     </div>
   );
 }
