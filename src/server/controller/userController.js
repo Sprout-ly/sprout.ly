@@ -49,37 +49,42 @@ userController.oAuthUser = (req, res, next) => {
 
 userController.verifyOrWriteUser = (req, res, next) => {
   console.log("in verify and write");
-  let values = [res.locals.userData.name, res.locals.userData.email, res.locals.userData.u_id];
-  const query1 = `SELECT EXISTS(SELECT 1 FROM users WHERE g_id = ${payload.u_id})`;
-  const query2 = `INSERT INTO user (name, email, g_id)
+  let values = [res.locals.userData.name, res.locals.userData.email, (res.locals.userData.u_id).toString()];
+  const query1 = `SELECT EXISTS(SELECT 1 FROM users WHERE g_id = '${values[2]}')`;
+  const query2 = `INSERT INTO users (name, email, g_id)
                   VALUES ($1, $2, $3)
                   RETURNING *`;
-  const query3 = `SELECT * from users where googleId = ${payload.u_id}`;
+  const query3 = `SELECT * FROM users where g_id = '${values[2]}'`;
   let exists;
 
   db.query(query1)
     .then(data => {
-      console.log('query 1 data here', data);
       exists = data.rows[0].exists;
-      console.log('exists boolean here', exists);
       if (exists === false) {
         db.query(query2, values)
           .then(data => {
-            console.log('data rows here', data.rows);
-            res.locals.users = data.rows;
+            aUser = data.rows[0];
+            res.locals.authUser = {name: aUser.name, email : aUser.email, u_id: aUser.id}
             next();
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            next()
+          });
       } else {
-        db.query(query3, values).then(data => {
-          res.locals.users = data.rows;
+        db.query(query3).then(data => {
+          aUser = data.rows[0];
+          res.locals.authUser = {name: aUser.name, email : aUser.email, u_id: aUser.id}
           next();
+        })
+        .catch(err => {
+          console.log("i reached my outer catch", err);
+          next(err)
         });
       }
     })
     .catch(err => {
-      console.log(err)
-      next(err)
+      console.log("i reached my outer catch", err)
     });
 }
 

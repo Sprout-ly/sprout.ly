@@ -30,8 +30,9 @@ app.delete('/deleteplants', plantController.deleteUserPlants, (req, res) => {
   res.status(200).json(res.locals.plants);
 });
 
-app.get('/authenticate', userController.oAuthUser, (req, res) => {
-  res.json(res.locals.userData);
+app.get('/authenticate', userController.oAuthUser, userController.verifyOrWriteUser, (req, res) => {
+  console.log("made to the end", res.locals.authUser)
+  res.json(res.locals.authUser);
 });
 
 app.get('/', (req, res) => {
