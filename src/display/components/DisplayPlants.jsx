@@ -1,6 +1,5 @@
 import React from "react";
 import Plant from "./Plant.jsx";
-
 function DisplayPlants(props) {
   const plants = props.showPlants.map((plant, idx) => {
     return (<Plant
@@ -12,8 +11,8 @@ function DisplayPlants(props) {
       lastWatered={plant.lastwatered}
       nextWatering={plant.nextwatering}
     />
-  )});
+    )
+  });
   return <div>{plants}</div>;
 }
-
 export default DisplayPlants;
