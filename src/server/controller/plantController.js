@@ -32,7 +32,7 @@ plantController.getUserPlants = (req, res, next) => {
 
 // successfully posts info to db
 plantController.addPlant = (req, res, next) => {
-  const { user_id, plantname, waterschedule } = req.body;
+  const { user_id, plantname, waterschedule, lastwatered, nextwatering } = req.body;
   console.log('req.body', req.body)
   const newQuery =
     `INSERT INTO plants (user_id, plantname, waterschedule, lastwatered, nextwatering) VALUES ($1, $2, $3, $4, $5)`;

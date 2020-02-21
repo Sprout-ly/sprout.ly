@@ -11,5 +11,8 @@
 .jumbotron {
   background-image: url("succulents.jpg");
   background-size: cover;
-  opacity: 0.55;
+}
+
+body {
+  text-align: center;
 }

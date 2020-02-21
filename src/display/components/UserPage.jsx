@@ -33,7 +33,7 @@ function UserPage(props) {
       return;
     }
   }
-  
+
   function timeParse(time) {
     let timeString = JSON.stringify(time)
     let date = timeString.slice(1, 11)
@@ -52,20 +52,20 @@ function UserPage(props) {
   }
 
   function addDays(date, days) {
-    return new Date(date.getTime() + days*24*60*60*1000)
+    return new Date(date.getTime() + days * 24 * 60 * 60 * 1000)
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     axios.post('/plants', {
-      user_id: 1,
+      user_id: user.u_id,
       plantname: plantName,
       waterschedule: Number(waterSchedule),
       lastwatered: lastWatered,
       nextwatering: nextWater(lastWatered)
     })
-    .then(res => console.log('item added'))
-    .catch(err => console.log('didnt post', err))
+      .then(res => console.log('item added'))
+      .catch(err => console.log('didnt post', err))
   }
 
   return (
